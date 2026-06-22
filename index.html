@@ -75,8 +75,14 @@
     flex:none;font-size:11px;font-weight:800;letter-spacing:.04em;
     color:#22241A;background:var(--lemon);padding:3px 9px;border-radius:999px;
   }
-  .topbar .roll{color:var(--ivory-dim);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .topbar .roll{flex:1;color:var(--ivory-dim);overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);}
+  .topbar .roll .track{display:inline-flex;white-space:nowrap;animation:marquee 13s linear infinite}
+  .topbar .roll .track span{padding-right:3rem}
   .topbar .roll b{color:var(--ivory);font-weight:700}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.topbar .roll .track{animation:none}}
 
   /* ── 히어로 ── */
   .hero{text-align:center;padding:46px 0 26px}
@@ -226,7 +232,7 @@
   <div class="topbar">
     <div class="wrap">
       <span class="pill">모집중</span>
-      <div class="roll"><b>한티MEXX 여름방학</b> 단과 / 종합반 개강</div>
+      <div class="roll"><div class="track"><span><b>한티MEXX 여름방학</b> 단과 / 종합반 개강</span><span aria-hidden="true"><b>한티MEXX 여름방학</b> 단과 / 종합반 개강</span></div></div>
     </div>
   </div>
 
