@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>김가경 국어 연구소</title>
+<meta name="description" content="김가경 선생님의 수업, 자료, 소식을 한곳에. 입시는 복잡하지만, 국어는 결국 읽는 힘에서 갈립니다." />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" as="style" crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" />
+<style>
+  :root{
+    --bg:#22241A;
+    --bg-2:#2A2C1E;
+    --bg-3:#33361F;
+    --surface:rgba(255,255,255,.05);
+    --surface-2:rgba(255,255,255,.085);
+    --border:rgba(246,244,233,.11);
+    --border-strong:rgba(246,244,233,.20);
+    --ivory:#F6F4E9;
+    --ivory-dim:#DDD9C7;
+    --muted:#A6A892;
+    --muted-2:#7C7E68;
+    --lemon:#ECF85A;
+    --lemon-bright:#EFFF57;
+    --lime:#CBFF4A;
+    --lemon-deep:#D6E24A;
+    --lemon-glow:rgba(236,248,90,.18);
+    --radius:18px;
+    --radius-sm:13px;
+    --maxw:680px;
+    --ff:"Pretendard Variable",Pretendard,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    --ff-head:"Gowun Batang","Nanum Myeongjo","Pretendard Variable",Pretendard,serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--ff);
+    background:
+      radial-gradient(1100px 620px at 50% -8%, #383b22 0%, rgba(56,59,34,0) 60%),
+      radial-gradient(760px 480px at 86% 10%, rgba(203,255,74,.08) 0%, rgba(203,255,74,0) 55%),
+      var(--bg);
+    color:var(--ivory);
+    line-height:1.62;
+    letter-spacing:-.01em;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:28px;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:20px;padding-right:20px}
+  a{color:inherit;text-decoration:none}
+  .eyebrow{
+    font-size:12px;font-weight:700;letter-spacing:.18em;
+    color:var(--lemon);text-transform:uppercase;
+    display:flex;align-items:center;gap:9px;margin-bottom:14px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1.5px;background:var(--lemon);display:inline-block;border-radius:2px}
+  section{padding:48px 0}
+  .sec-title{font-family:var(--ff-head);font-size:23px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+  .sec-sub{font-size:14px;color:var(--muted);margin-bottom:22px}
+
+  /* ── 모집중 상단 바 ── */
+  .topbar{
+    position:sticky;top:0;z-index:40;
+    background:rgba(34,36,26,.82);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+  }
+  .topbar .wrap{display:flex;align-items:center;gap:10px;height:46px;font-size:13px}
+  .pill{
+    flex:none;font-size:11px;font-weight:800;letter-spacing:.04em;
+    color:#22241A;background:var(--lemon);padding:3px 9px;border-radius:999px;
+  }
+  .topbar .roll{color:var(--ivory-dim);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .topbar .roll b{color:var(--ivory);font-weight:700}
+
+  /* ── 히어로 ── */
+  .hero{text-align:center;padding:46px 0 26px}
+  .avatar{
+    width:122px;height:122px;border-radius:50%;margin:0 auto 18px;
+    overflow:hidden;
+    background:radial-gradient(120% 120% at 30% 20%, #3a3d24 0%, #23251a 72%);
+    border:1px solid var(--border-strong);
+    box-shadow:0 0 0 6px rgba(236,248,90,.09), 0 18px 50px rgba(0,0,0,.5);
+    position:relative;
+  }
+  .avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 12%;display:block}
+  .avatar::after{
+    content:"";position:absolute;inset:-1px;border-radius:50%;pointer-events:none;
+    border:1px solid transparent;
+    background:linear-gradient(140deg, rgba(236,248,90,.55), transparent 45%) border-box;
+    -webkit-mask:linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+  }
+  .brand{margin:0 0 8px}
+  .brand-logo{display:block;width:min(380px,92%);height:auto;margin:0 auto}
+  .brand-sub{font-family:var(--ff-head);font-size:19px;color:var(--lemon);font-weight:700;letter-spacing:.01em;margin-bottom:20px}
+  .lead{font-family:var(--ff-head);font-size:27px;color:var(--ivory-dim);max-width:480px;margin:0 auto 12px;line-height:1.58;font-weight:700;letter-spacing:-.01em}
+  .lead-quote{
+    display:inline-block;font-family:var(--ff-head);font-size:21px;color:var(--ivory-dim);max-width:480px;margin:20px auto 0;
+    padding-left:16px;border-left:3px solid var(--lemon-deep);text-align:left;line-height:1.6;font-weight:600;
+  }
+
+  /* ── 둘러보기 (링크) ── */
+  .content-list{display:flex;flex-direction:column;gap:11px}
+  .content{
+    display:flex;align-items:center;gap:15px;
+    background:var(--surface-2);border:1px solid var(--border-strong);border-radius:14px;
+    padding:18px 18px;transition:transform .15s, border-color .2s, box-shadow .2s, background .2s;
+  }
+  .content:hover{transform:translateY(-2px);border-color:var(--lemon);box-shadow:0 8px 26px rgba(236,248,90,.14)}
+  .content .ci{
+    width:44px;height:44px;border-radius:12px;flex:none;display:grid;place-items:center;
+    background:var(--lemon-glow);border:1px solid rgba(236,248,90,.30);color:var(--lemon);
+  }
+  .content .ci svg{width:21px;height:21px}
+  .content .ct{font-size:11.5px;font-weight:700;color:var(--lemon);letter-spacing:.04em;margin-bottom:2px}
+  .content .cn{font-size:16.5px;font-weight:800;letter-spacing:-.02em}
+  .content .arr{margin-left:auto;color:var(--lemon)}
+  /* 강조(첫) 카드 — 풀 레몬 블록 */
+  .content.feat{background:var(--lemon);border-color:var(--lemon)}
+  .content.feat .ct{color:rgba(34,36,26,.6)}
+  .content.feat .cn{color:#22241A}
+  .content.feat .ci{background:rgba(34,36,26,.14);border-color:rgba(34,36,26,.22);color:#22241A}
+  .content.feat .arr{color:#22241A}
+  .content.feat:hover{box-shadow:0 12px 32px rgba(236,248,90,.32);transform:translateY(-2px)}
+
+  /* ── 지금 확인해야 할 소식 ── */
+  .news-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .news{
+    display:flex;align-items:center;gap:12px;
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:16px 16px;transition:transform .15s, border-color .2s, background .2s;
+  }
+  .news:hover{transform:translateY(-2px);border-color:var(--border-strong);background:var(--surface-2)}
+  .news .tag{
+    flex:none;font-size:10.5px;font-weight:800;letter-spacing:.02em;
+    padding:3px 8px;border-radius:7px;color:var(--lemon);
+    background:var(--lemon-glow);border:1px solid rgba(236,248,90,.24);
+  }
+  .news .nt{font-size:14px;font-weight:700;line-height:1.4}
+  .news .nd{font-size:12px;color:var(--muted-2);margin-top:1px}
+  .news .arr{margin-left:auto;color:var(--muted-2);flex:none}
+
+  /* ── 김가경T 소개 ── */
+  .about{
+    background:linear-gradient(165deg, var(--bg-3), var(--bg-2));
+    border:1px solid var(--border);border-radius:var(--radius);padding:30px 26px;
+  }
+  .about .quote{font-family:var(--ff-head);font-size:18px;font-weight:700;line-height:1.7;color:var(--ivory);margin-bottom:14px;letter-spacing:-.02em}
+  .about .quote em{color:var(--lemon);font-style:normal}
+  .about p{font-size:13.5px;color:var(--muted);line-height:1.75}
+  .about .sign{margin-top:16px;font-size:14px;font-weight:800;color:var(--ivory)}
+  .about .sign span{color:var(--muted);font-weight:500;font-size:12.5px}
+
+  /* ── 문의 ── */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  .contact{
+    display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:18px 10px;transition:transform .15s, border-color .2s;
+  }
+  .contact:hover{transform:translateY(-2px);border-color:var(--border-strong)}
+  .contact .ci{color:var(--lemon)}
+  .contact .ci svg{width:23px;height:23px}
+  .contact span{font-size:13px;font-weight:700}
+
+  footer{text-align:center;padding:34px 0 10px;color:var(--muted-2);font-size:12px;line-height:1.8}
+  footer .fbrand{color:var(--ivory-dim);font-weight:700;font-size:13px}
+
+  /* ── 버튼 / 하단 고정 CTA ── */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:var(--ff);font-size:15px;font-weight:700;letter-spacing:-.01em;
+    padding:14px 22px;border-radius:13px;border:1px solid var(--border-strong);
+    background:var(--surface);color:var(--ivory);cursor:pointer;
+    transition:transform .15s ease, background .2s ease, border-color .2s ease;
+  }
+  .btn svg{width:17px;height:17px;flex:none}
+  .btn-primary{background:var(--lemon);color:#22241A;border-color:var(--lemon)}
+  .btn-primary:hover{background:var(--lemon-bright)}
+  .sticky-cta{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    background:linear-gradient(180deg, rgba(34,36,26,0), rgba(34,36,26,.93) 28%);
+    padding:14px 20px calc(14px + env(safe-area-inset-bottom));
+  }
+  .sticky-cta .row{max-width:var(--maxw);margin:0 auto;display:flex;gap:9px}
+  .sticky-cta .btn{flex:1;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+  .sticky-cta .btn-icon{flex:none;width:50px;padding:0}
+  .kakao{background:#FAE100;color:#3A1D1D;border-color:#FAE100}
+  .kakao:hover{background:#ffe924}
+
+  @media (max-width:560px){
+    .news-grid{grid-template-columns:1fr}
+    section{padding:36px 0}
+  }
+</style>
+</head>
+<body>
+
+  <!-- 모집중 상단 바 -->
+  <div class="topbar">
+    <div class="wrap">
+      <span class="pill">모집중</span>
+      <div class="roll"><b>예비 고1 겨울 정규반</b> · 고2 내신 선행반 · 고3 수능 정규반 접수 중</div>
+    </div>
+  </div>
+
+  <!-- 히어로 -->
+  <header class="hero wrap">
+    <h1 class="brand"><img class="brand-logo" src="assets/logo.png" alt="김가경 국어 연구소" /></h1>
+    <p class="brand-sub">김가경 국어 연구소</p>
+    <p class="lead">출제자의 시선으로,<br/>감이 아닌 <b style="color:var(--ivory)">명확한 근거</b>로.</p>
+    <p class="lead-quote">국어 가뿐하게, 경쾌하게!</p>
+  </header>
+
+  <!-- 둘러보기 (링크) -->
+  <section class="wrap" id="links">
+    <div class="eyebrow">LINKS</div>
+    <h2 class="sec-title">둘러보기</h2>
+    <p class="sec-sub">필요한 곳으로 바로 이동하세요.</p>
+    <div class="content-list">
+      <a class="content feat" href="https://youtube.com/channel/UCrEYhXaFqlcnxn1wpsiUKEg?si=ro6Ns6uCJruS7m9b" target="_blank" rel="noopener">
+        <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.5 7s-.2-1.5-.8-2.1c-.8-.8-1.7-.8-2.1-.9C16.7 3.8 12 3.8 12 3.8h0s-4.7 0-7.6.2c-.4.1-1.3.1-2.1.9C1.7 5.5 1.5 7 1.5 7S1.3 8.8 1.3 10.5v1.6c0 1.7.2 3.5.2 3.5s.2 1.5.8 2.1c.8.8 1.8.8 2.3.9 1.7.2 7.4.2 7.4.2s4.7 0 7.6-.2c.4-.1 1.3-.1 2.1-.9.6-.6.8-2.1.8-2.1s.2-1.7.2-3.5v-1.6c0-1.7-.2-3.5-.2-3.5z"/><path d="M10 15V9l5 3z" fill="currentColor" stroke="none"/></svg></div>
+        <div><div class="ct">유튜브</div><div class="cn">김가경 국어 연구소</div></div>
+        <svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+      </a>
+      <a class="content" href="https://instagram.com/oreum1222" target="_blank" rel="noopener">
+        <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></div>
+        <div><div class="ct">인스타그램</div><div class="cn">가경T</div></div>
+        <svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+      </a>
+      <a class="content" href="http://class.oreumyak.com" target="_blank" rel="noopener">
+        <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.2 2.7 3 6 3s6-1.8 6-3v-5"/><path d="M22 10v6"/></svg></div>
+        <div><div class="ct">사이트</div><div class="cn">[오름] 국어 학원</div></div>
+        <svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+      </a>
+      <a class="content" href="https://oreumyak.com" target="_blank" rel="noopener">
+        <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+        <div><div class="ct">사이트</div><div class="cn">[오름] 국어 약술형 논술</div></div>
+        <svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+      </a>
+      <a class="content" href="https://hanti.oreumyak.com/" target="_blank" rel="noopener">
+        <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"/></svg></div>
+        <div><div class="ct">사이트</div><div class="cn">한티 MEXX 김가경T</div></div>
+        <svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- 지금 확인해야 할 소식 -->
+  <section class="wrap" id="news">
+    <div class="eyebrow">NOW</div>
+    <h2 class="sec-title">지금 확인해야 할 소식</h2>
+    <p class="sec-sub">이번 시즌, 가장 먼저 봐야 할 안내입니다.</p>
+    <div class="news-grid">
+      <a class="news" href="https://hanti.oreumyak.com/" target="_blank" rel="noopener">
+        <span class="tag">MEXX</span>
+        <div><div class="nt">한티 MEXX 여름방학 개강!</div><div class="nd">여름 특강 신청 안내</div></div>
+        <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </a>
+      <a class="news" href="http://class.oreumyak.com" target="_blank" rel="noopener">
+        <span class="tag">오름</span>
+        <div><div class="nt">[오름] 국어 여름방학 개강!</div><div class="nd">여름 정규반 모집</div></div>
+        <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </a>
+      <a class="news" href="https://youtube.com/channel/UCrEYhXaFqlcnxn1wpsiUKEg?si=ro6Ns6uCJruS7m9b" target="_blank" rel="noopener">
+        <span class="tag">유튜브</span>
+        <div><div class="nt">구독자 2.9만 돌파!</div><div class="nd">구독 · 알림 설정하기</div></div>
+        <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- 문의 -->
+  <section class="wrap" id="contact">
+    <div class="eyebrow">CONTACT</div>
+    <h2 class="sec-title">문의</h2>
+    <p class="sec-sub">콘텐츠 및 출강, 수강, 협업 문의</p>
+    <div class="contact-grid">
+      <a class="contact" href="http://pf.kakao.com/_xlgSXX/chat" target="_blank" rel="noopener">
+        <div class="ci"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.9 5.3 4.7 6.7-.2.7-.7 2.6-.8 3-.1.5.2.5.4.4.2-.1 2.6-1.8 3.7-2.5.6.1 1.3.1 2 .1 5.5 0 10-3.6 10-8S17.5 3 12 3z"/></svg></div>
+        <span>카카오톡</span>
+      </a>
+      <a class="contact" href="tel:">
+        <div class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <span>전화 문의</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="wrap">
+    <div class="fbrand">김가경 국어 연구소</div>
+    © 2026 KGK Korean Lab. All rights reserved.
+  </footer>
+
+</body>
+</html>
