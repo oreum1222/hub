@@ -2,7 +2,10 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <title>김가경 국어 연구소</title>
 <meta name="description" content="김가경 선생님의 수업, 자료, 소식을 한곳에. 입시는 복잡하지만, 국어는 결국 읽는 힘에서 갈립니다." />
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
@@ -192,8 +195,28 @@
   .kakao:hover{background:#ffe924}
 
   @media (max-width:560px){
+    .wrap{padding-left:16px;padding-right:16px}
+    section{padding:38px 0}
     .news-grid{grid-template-columns:1fr}
-    section{padding:36px 0}
+    .hero{padding:40px 0 22px}
+    .brand-logo{width:min(300px,88%)}
+    .brand-sub{font-size:16px;margin-bottom:14px}
+    .lead{font-size:21px}
+    .lead-quote{font-size:17px}
+    .sec-title{font-size:20px}
+    .sec-sub{font-size:13px}
+    .content{padding:16px 15px;gap:13px}
+    .content .ci{width:40px;height:40px}
+    .content .ci svg{width:19px;height:19px}
+    .content .cn{font-size:15.5px}
+    .news{padding:15px 14px}
+  }
+  @media (max-width:380px){
+    .brand-logo{width:90%}
+    .lead{font-size:19px}
+    .lead-quote{font-size:16px}
+    .content .cn{font-size:15px}
+    .contact span{font-size:12px}
   }
 </style>
 </head>
@@ -209,7 +232,7 @@
 
   <!-- 히어로 -->
   <header class="hero wrap">
-    <h1 class="brand"><img class="brand-logo" src="assets/logo.png" alt="김가경 국어 연구소" /></h1>
+    <h1 class="brand"><img class="brand-logo" src="assets/logo.png?v=1" alt="김가경 국어 연구소" /></h1>
     <p class="brand-sub">김가경 국어 연구소</p>
     <p class="lead">출제자의 시선으로,<br/>감이 아닌 <b style="color:var(--ivory)">명확한 근거</b>로.</p>
     <p class="lead-quote">국어 가뿐하게, 경쾌하게!</p>
