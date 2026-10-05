@@ -30,7 +30,7 @@
                linear-gradient(75deg, transparent 60%, rgba(255,255,255,.035) 68%, transparent 74%);
     filter:blur(2px)}
 
-  #c{position:fixed;inset:0;z-index:1;display:block}
+  #c{position:fixed;top:0;left:0;z-index:1;display:block}
 
   .scroller{position:relative;z-index:2;height:360vh;pointer-events:none}
 
@@ -161,10 +161,26 @@
 
   // ── 구슬 ──
   const loader = new THREE.TextureLoader();
+  // 유리 광택 오버레이 텍스처(선명 유지용 2D 빌보드)
+  function makeGlassTex(){
+    const c=document.createElement('canvas'); c.width=c.height=256; const x=c.getContext('2d');
+    let rim=x.createRadialGradient(128,128,78,128,128,128);
+    rim.addColorStop(0,'rgba(255,255,255,0)'); rim.addColorStop(0.80,'rgba(255,255,255,0)');
+    rim.addColorStop(0.93,'rgba(255,255,255,0.4)'); rim.addColorStop(1,'rgba(255,255,255,0)');
+    x.fillStyle=rim; x.fillRect(0,0,256,256);
+    let sheen=x.createRadialGradient(100,92,6,128,128,128);
+    sheen.addColorStop(0,'rgba(255,255,255,0.10)'); sheen.addColorStop(1,'rgba(255,255,255,0)');
+    x.fillStyle=sheen; x.fillRect(0,0,256,256);
+    x.save(); x.translate(94,84); x.rotate(-0.5);
+    let hi=x.createRadialGradient(0,0,2,0,0,52); hi.addColorStop(0,'rgba(255,255,255,0.95)'); hi.addColorStop(1,'rgba(255,255,255,0)');
+    x.fillStyle=hi; x.beginPath(); x.ellipse(0,0,50,30,0,0,7); x.fill(); x.restore();
+    const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return t;
+  }
+  const glassTex = makeGlassTex();
   const orbs = [];
   const bodyX0 = leftX + capLen + 0.34, bodyX1 = L/2 - 0.1;
   VIDEOS.forEach((v, i)=>{
-    const r = 0.26 + rnd()*0.14;
+    const r = 0.32 + rnd()*0.16;
     const g = new THREE.Group();
     const crop = { rx: v.repeatX || 0.3375, ry: v.repeatY || 0.6, ox: (v.offX!=null?v.offX:0.33), oy: (v.offY!=null?v.offY:0.2) };
     const tex = loader.load('assets/thumbs/'+v.id+'.jpg');
@@ -173,21 +189,20 @@
     tex.center.set(0,0);
     tex.repeat.set(crop.rx, crop.ry);
     tex.offset.set(crop.ox, crop.oy);
-    const innerMat = new THREE.MeshBasicMaterial({map:tex}); innerMat.toneMapped = false;
-    const inner = new THREE.Mesh(new THREE.CircleGeometry(r*0.95, 48), innerMat); // 얼굴 정면 원판(빌보드)
-    const glass = new THREE.Mesh(new THREE.SphereGeometry(r, 44, 32), new THREE.MeshPhysicalMaterial({
-      color:0xffffff, metalness:0, roughness:0.09, transmission:1, thickness:r*0.42, ior:1.32,
-      clearcoat:0.35, clearcoatRoughness:0.34, transparent:true, envMapIntensity:0.2
-    }));
+    const innerMat = new THREE.MeshBasicMaterial({map:tex, transparent:true}); innerMat.toneMapped = false;
+    const inner = new THREE.Mesh(new THREE.CircleGeometry(r*0.92, 48), innerMat); // 선명한 얼굴 원판(빌보드)
+    const glass = new THREE.Mesh(new THREE.PlaneGeometry(r*2.08, r*2.08),
+      new THREE.MeshBasicMaterial({map:glassTex, transparent:true, depthWrite:false, toneMapped:false})); // 유리 광택 오버레이
+    glass.position.z = 0.001;
     glass.userData.orbIndex = i;
     g.add(inner); g.add(glass);
     // 가운데 한 뭉치로 모여 둥둥(레퍼런스: 중앙 클러스터, 화면 넓어도 중앙 고정)
     const gAng = i * 2.39996; // 황금각 → 중앙에 고르게 뭉침
-    const gRad = 0.42 * Math.sqrt(i + 0.6);
+    const gRad = 0.5 * Math.sqrt(i + 0.6);
     const scatter = new THREE.Vector3(
-      Math.cos(gAng)*gRad*1.55 + (rnd()-0.5)*0.22,
-      Math.sin(gAng)*gRad*1.02 + (rnd()-0.5)*0.22 - 0.25,
-      (rnd()*2-1)*0.9
+      Math.cos(gAng)*gRad*1.5 + (rnd()-0.5)*0.2,
+      Math.sin(gAng)*gRad*1.05 + (rnd()-0.5)*0.2,
+      (rnd()*2-1)*0.8
     );
     // 캡슐 내부 목표(local)
     const tx = lerp(bodyX0, bodyX1, rnd());
@@ -238,7 +253,7 @@
 
   function resize(){
     const w = window.innerWidth, h = window.innerHeight;
-    renderer.setSize(w,h,false); camera.aspect = w/h; camera.updateProjectionMatrix();
+    renderer.setSize(w,h); camera.aspect = w/h; camera.updateProjectionMatrix();
   }
   window.addEventListener('resize', ()=>{ resize(); onScroll(); });
   resize(); onScroll();
@@ -281,7 +296,7 @@
       o.position.copy(p);
       const sc = lerp(1, 0.82, e) * capS * (hover===o ? 1.12 : 1);
       o.scale.setScalar(lerp(o.scale.x||1, sc, 0.2));
-      if(d.inner){ d.inner.quaternion.copy(camera.quaternion); } // 얼굴 정면(scene 자식)
+      o.quaternion.copy(camera.quaternion); // 구슬 정면 고정(빌보드)
     });
 
     // 텍스트 전환
