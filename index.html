@@ -189,7 +189,7 @@
     tex.center.set(0,0);
     tex.repeat.set(crop.rx, crop.ry);
     tex.offset.set(crop.ox, crop.oy);
-    const innerMat = new THREE.MeshBasicMaterial({map:tex, transparent:true}); innerMat.toneMapped = false;
+    const innerMat = new THREE.MeshBasicMaterial({map:tex}); innerMat.toneMapped = false;
     const inner = new THREE.Mesh(new THREE.CircleGeometry(r*0.92, 48), innerMat); // 선명한 얼굴 원판(빌보드)
     const glass = new THREE.Mesh(new THREE.PlaneGeometry(r*2.08, r*2.08),
       new THREE.MeshBasicMaterial({map:glassTex, transparent:true, depthWrite:false, toneMapped:false})); // 유리 광택 오버레이
@@ -197,12 +197,12 @@
     glass.userData.orbIndex = i;
     g.add(inner); g.add(glass);
     // 가운데 한 뭉치로 모여 둥둥(레퍼런스: 중앙 클러스터, 화면 넓어도 중앙 고정)
-    const gAng = i * 2.39996; // 황금각 → 중앙에 고르게 뭉침
-    const gRad = 0.5 * Math.sqrt(i + 0.6);
+    const gAng = i * 2.39996; // 황금각 → 가운데부터 채워 뭉침(i=0 중앙)
+    const gRad = 0.5 * Math.sqrt(i);
     const scatter = new THREE.Vector3(
-      Math.cos(gAng)*gRad*1.5 + (rnd()-0.5)*0.2,
-      Math.sin(gAng)*gRad*1.05 + (rnd()-0.5)*0.2,
-      (rnd()*2-1)*0.8
+      Math.cos(gAng)*gRad*1.55 + (rnd()-0.5)*0.16,
+      Math.sin(gAng)*gRad*1.18 + (rnd()-0.5)*0.16,
+      (rnd()*2-1)*0.6
     );
     // 캡슐 내부 목표(local)
     const tx = lerp(bodyX0, bodyX1, rnd());
