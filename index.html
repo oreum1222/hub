@@ -8,10 +8,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Gowun+Batang:wght@400;700&display=swap" />
 <style>
+  @font-face{font-family:"ChosunSm";src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.1/ChosunSm.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}
   :root{
     --ivory:#F4F3F7; --ivory-dim:#CFCDD8; --muted:#8A889A; --lemon:#C9C3E0;
     --ff:"Pretendard Variable",Pretendard,-apple-system,system-ui,"Malgun Gothic",sans-serif;
-    --ff-head:"Gowun Batang","Nanum Myeongjo",serif;
+    --ff-head:"ChosunSm","Gowun Batang","Nanum Myeongjo",serif;
     --ff-script:"Cormorant Garamond",serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -47,10 +48,10 @@
   .copy{position:fixed;left:0;right:0;z-index:20;text-align:center;pointer-events:none;padding:0 22px}
   .copy-intro{top:12%}
   .script{font-family:var(--ff-script);font-style:italic;font-size:clamp(20px,3vw,30px);color:var(--lemon)}
-  .headline{font-family:var(--ff-head);font-weight:700;font-size:clamp(30px,5.6vw,54px);letter-spacing:-.03em;line-height:1.18;margin-top:6px}
+  .headline{font-family:var(--ff-head);font-weight:400;font-size:clamp(32px,6vw,58px);letter-spacing:-.02em;line-height:1.16;margin-top:6px}
   .sub{font-family:var(--ff-head);font-size:clamp(13px,2.1vw,16px);color:var(--ivory-dim);margin-top:13px;line-height:1.6}
   .copy-outro{top:14%;opacity:0}
-  .copy-outro .brand{font-family:var(--ff-head);font-weight:700;font-size:clamp(26px,5vw,46px);letter-spacing:-.03em}
+  .copy-outro .brand{font-family:var(--ff-head);font-weight:400;font-size:clamp(28px,5.2vw,48px);letter-spacing:-.02em}
   .copy-outro .brand b{color:var(--lemon)}
   .copy-outro .brand-sub{font-size:14px;color:var(--ivory-dim);margin-top:10px}
   .enter{pointer-events:auto;display:inline-flex;align-items:center;gap:8px;margin-top:22px;
