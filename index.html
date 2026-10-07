@@ -75,6 +75,21 @@
   .loading{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:#07080A;color:var(--muted);
     font-size:13px;letter-spacing:.1em;transition:opacity .6s}
   .loading.hide{opacity:0;pointer-events:none}
+  /* ── 모바일 전용 정적 스플래시(구슬 인트로 생략) ── */
+  .m-splash{display:none}
+  @media (pointer:coarse), (max-width:639px){
+    #c, .topnav, .copy-intro, .copy-outro, .cue, .scroller, .tip, .loading{display:none!important}
+    html,body{height:auto;min-height:100%;overflow-y:auto}
+    .m-splash{display:flex;position:fixed;inset:0;z-index:20;flex-direction:column;
+      align-items:center;justify-content:center;text-align:center;padding:0 24px}
+    .m-splash .headline{margin:0}
+    .m-enter{margin-top:30px;font-family:var(--ff-head);font-size:clamp(21px,6.4vw,28px);letter-spacing:-.01em;
+      color:var(--ivory);text-decoration:none;display:inline-flex;align-items:center;gap:10px;
+      padding:15px 30px;border:1px solid rgba(255,255,255,.22);border-radius:999px;
+      background:rgba(255,255,255,.05);-webkit-tap-highlight-color:transparent;transition:background .15s}
+    .m-enter .m-arr{font-family:var(--ff);font-weight:700;color:var(--lemon);font-size:.82em}
+    .m-enter:active{background:rgba(255,255,255,.12)}
+  }
 </style>
 </head>
 <body>
@@ -89,6 +104,12 @@
   <div class="copy copy-intro" id="introCopy">
     <h1 class="headline">국어의 모든 순간</h1>
     <p class="sub">김가경 국어 연구소</p>
+  </div>
+
+  <!-- 모바일 전용: 구슬 인트로 없이 바로 뜨는 정적 화면 -->
+  <div class="m-splash" id="mSplash">
+    <h1 class="headline">국어의 모든 순간</h1>
+    <a class="m-enter" href="home.html">김가경 국어 연구소 <span class="m-arr">→</span></a>
   </div>
 
   <div class="copy copy-outro" id="outroCopy">
@@ -110,8 +131,10 @@
   }}
   </script>
   <script type="module">
-  import * as THREE from 'three';
-  import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+  const IS_MOBILE = window.matchMedia('(pointer:coarse)').matches || (window.innerWidth>0 && window.innerWidth<640);
+  if (!IS_MOBILE) (async () => {
+  const THREE = await import('three');
+  const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
 
   const VIDEOS = (window.KGK_VIDEOS || []).slice(0, 12);
   const canvas = document.getElementById('c');
@@ -316,6 +339,7 @@
     hideLoading();
   }
   animate();
+  })();
   </script>
 </body>
 </html>
