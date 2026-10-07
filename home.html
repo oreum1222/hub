@@ -13,7 +13,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" as="style" crossorigin
   href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gugi&family=Gowun+Batang:wght@400;700&display=swap" />
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+}}
+</script>
 <style>
   @font-face{font-family:"ChosunSm";src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.1/ChosunSm.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}
   :root{
@@ -235,6 +241,32 @@
     .content .cn{font-size:15px}
     .contact span{font-size:12px}
   }
+  /* ── 구슬 히어로(인트로) ── */
+  .hero-orb{position:relative;height:calc(100svh - 46px);min-height:540px;width:100%;overflow:hidden;background:#07080A}
+  .hero-orb .orb-bg{position:absolute;inset:0;z-index:0;background:
+    radial-gradient(1200px 820px at 50% 44%, #18181e 0%, rgba(24,24,30,0) 62%),
+    radial-gradient(900px 520px at 80% 16%, rgba(201,195,224,.07) 0%, rgba(201,195,224,0) 60%),
+    #08080b}
+  .hero-orb canvas#c{position:absolute;inset:0;z-index:1;display:block;width:100%;height:100%}
+  .hero-copy{position:absolute;left:0;right:0;top:11%;z-index:2;text-align:center;padding:0 24px;pointer-events:none}
+  .hero-h{font-family:"Gugi",sans-serif;font-weight:400;font-size:clamp(46px,13.5vw,74px);line-height:1.12;
+    letter-spacing:-.01em;color:var(--ivory);word-break:keep-all;text-wrap:balance;margin:0}
+  .hero-sub{font-family:var(--ff);font-weight:500;font-size:clamp(15px,4vw,20px);color:var(--ivory-dim);
+    margin:14px 0 0;letter-spacing:.01em}
+  .cue{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:3;font-size:13.5px;
+    color:var(--ivory-dim);display:flex;flex-direction:column;align-items:center;gap:9px;pointer-events:none}
+  .cue .cuetxt{text-align:center;line-height:1.45;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+  .cue .mouse{width:24px;height:38px;border:1.6px solid rgba(255,255,255,.45);border-radius:13px;position:relative}
+  .cue .mouse::after{content:"";position:absolute;left:50%;top:8px;width:3.5px;height:7px;border-radius:2px;
+    background:var(--lemon);transform:translateX(-50%);animation:wheel 1.5s ease-in-out infinite}
+  .cue .chev{width:11px;height:11px;border-right:2.2px solid var(--lemon);border-bottom:2.2px solid var(--lemon);
+    animation:chevbob 1.5s ease-in-out infinite}
+  @keyframes wheel{0%{opacity:0;transform:translate(-50%,0)}30%{opacity:1}100%{opacity:0;transform:translate(-50%,12px)}}
+  @keyframes chevbob{0%,100%{transform:rotate(45deg) translateY(0);opacity:.45}50%{transform:rotate(45deg) translateY(4px);opacity:1}}
+  .tip{position:fixed;z-index:35;pointer-events:none;background:rgba(10,11,8,.9);border:1px solid rgba(201,195,224,.3);
+    color:var(--ivory);padding:6px 11px;border-radius:9px;font-size:12.5px;opacity:0;transform:translateY(6px);
+    transition:opacity .18s, transform .18s;max-width:240px}
+  @media (prefers-reduced-motion:reduce){.cue .mouse::after,.cue .chev{animation:none}}
 </style>
 </head>
 <body>
@@ -247,13 +279,17 @@
     </div>
   </div>
 
-  <!-- 히어로 -->
-  <header class="hero wrap">
-    <h1 class="brand"><img class="brand-logo" src="assets/logo.png?v=1" alt="김가경 국어 연구소" /></h1>
-    <p class="brand-sub">김가경 국어 연구소</p>
-    <p class="lead">출제자의 시선으로,<br/>감이 아닌 <b style="color:var(--ivory)">명확한 근거</b>로.</p>
-    <p class="lead-quote">국어 가뿐하게, 경쾌하게!</p>
-  </header>
+  <!-- 구슬 히어로 -->
+  <section class="hero-orb" id="heroOrb">
+    <div class="orb-bg"></div>
+    <canvas id="c"></canvas>
+    <div class="hero-copy">
+      <h1 class="hero-h">국어의 모든 순간</h1>
+      <p class="hero-sub">김가경 국어 연구소</p>
+    </div>
+    <div class="cue" id="cue"><span class="cuetxt">아래로 스크롤하여 둘러보기</span><div class="mouse"></div><div class="chev"></div></div>
+  </section>
+  <div class="tip" id="tip"></div>
 
   <!-- 둘러보기 (링크) -->
   <section class="wrap" id="links">
@@ -345,6 +381,107 @@
     <div class="fbrand">김가경 국어 연구소</div>
     © 2026 김가경 국어 연구소
   </footer>
+
+  <script src="videos.js"></script>
+  <script type="module">
+  const canvas = document.getElementById('c');
+  const heroEl = document.getElementById('heroOrb');
+  const VIDEOS = (window.KGK_VIDEOS || []).slice(0, 12);
+  if (canvas && heroEl && VIDEOS.length) (async () => {
+    const THREE = await import('three');
+    const tip = document.getElementById('tip');
+    const isMobile = window.matchMedia('(pointer:coarse)').matches || (window.innerWidth>0 && window.innerWidth<640);
+
+    let seed = 20261004;
+    const rnd = ()=>{ seed=(seed*1664525+1013904223)&0xffffffff; return (seed>>>0)/4294967296; };
+    const lerp = (a,b,t)=>a+(b-a)*t;
+
+    const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true, powerPreference:'high-performance'});
+    renderer.setPixelRatio(Math.min(2.5, window.devicePixelRatio||1));
+    const maxAniso = renderer.capabilities.getMaxAnisotropy();
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    camera.position.set(0,0,9);
+
+    // 유리 광택 오버레이(선명 유지용 2D 빌보드)
+    function makeGlassTex(){
+      const c=document.createElement('canvas'); c.width=c.height=256; const x=c.getContext('2d');
+      let rim=x.createRadialGradient(128,128,78,128,128,128);
+      rim.addColorStop(0,'rgba(255,255,255,0)'); rim.addColorStop(0.80,'rgba(255,255,255,0)');
+      rim.addColorStop(0.93,'rgba(255,255,255,0.4)'); rim.addColorStop(1,'rgba(255,255,255,0)');
+      x.fillStyle=rim; x.fillRect(0,0,256,256);
+      let sheen=x.createRadialGradient(100,92,6,128,128,128);
+      sheen.addColorStop(0,'rgba(255,255,255,0.10)'); sheen.addColorStop(1,'rgba(255,255,255,0)');
+      x.fillStyle=sheen; x.fillRect(0,0,256,256);
+      x.save(); x.translate(94,84); x.rotate(-0.5);
+      let hi=x.createRadialGradient(0,0,2,0,0,52); hi.addColorStop(0,'rgba(255,255,255,0.95)'); hi.addColorStop(1,'rgba(255,255,255,0)');
+      x.fillStyle=hi; x.beginPath(); x.ellipse(0,0,50,30,0,0,7); x.fill(); x.restore();
+      const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return t;
+    }
+    const glassTex = makeGlassTex();
+    const loader = new THREE.TextureLoader();
+    const orbs = [];
+    VIDEOS.forEach((v,i)=>{
+      const r = 0.32 + rnd()*0.16;
+      const g = new THREE.Group();
+      const crop = { rx: v.repeatX||0.3375, ry: v.repeatY||0.6, ox:(v.offX!=null?v.offX:0.33), oy:(v.offY!=null?v.offY:0.2) };
+      const tex = loader.load('assets/thumbs/'+v.id+'.jpg');
+      tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=maxAniso;
+      tex.minFilter=THREE.LinearMipmapLinearFilter; tex.generateMipmaps=true;
+      tex.wrapS=tex.wrapT=THREE.ClampToEdgeWrapping; tex.center.set(0,0);
+      tex.repeat.set(crop.rx,crop.ry); tex.offset.set(crop.ox,crop.oy);
+      const innerMat=new THREE.MeshBasicMaterial({map:tex}); innerMat.toneMapped=false;
+      const inner=new THREE.Mesh(new THREE.CircleGeometry(r*0.92,48), innerMat);
+      const glass=new THREE.Mesh(new THREE.PlaneGeometry(r*2.08,r*2.08),
+        new THREE.MeshBasicMaterial({map:glassTex,transparent:true,depthWrite:false,toneMapped:false}));
+      glass.position.z=0.001; glass.userData.orbIndex=i;
+      g.add(inner); g.add(glass);
+      const gAng=i*2.39996, gRad=0.5*Math.sqrt(i);
+      const scatter=new THREE.Vector3(Math.cos(gAng)*gRad*1.55+(rnd()-0.5)*0.16, Math.sin(gAng)*gRad*1.18+(rnd()-0.5)*0.16, (rnd()*2-1)*0.6);
+      g.position.copy(scatter);
+      g.userData={v,r,scatter,phase:rnd()*Math.PI*2,sp:0.85+rnd()*0.5,inner,thumbTex:tex,crop,video:null,vtex:null};
+      scene.add(g); orbs.push(g);
+    });
+
+    // 인터랙션(호버 영상=데스크톱, 탭/클릭=유튜브)
+    const ray=new THREE.Raycaster(), pointer=new THREE.Vector2(); let hover=null, pxy={x:0,y:0}, lastHover=null;
+    const glassMeshes=()=>orbs.map(o=>o.children[1]);
+    function pick(ev){ const rect=canvas.getBoundingClientRect(); pointer.x=((ev.clientX-rect.left)/rect.width)*2-1; pointer.y=-((ev.clientY-rect.top)/rect.height)*2+1; pxy.x=ev.clientX; pxy.y=ev.clientY; ray.setFromCamera(pointer,camera); const hit=ray.intersectObjects(glassMeshes(),false)[0]; return hit?orbs[hit.object.userData.orbIndex]:null; }
+    function playOrb(o){ const d=o.userData; if(!d.video){ const vid=document.createElement('video'); vid.src='assets/clips/'+d.v.id+'.mp4'; vid.muted=true; vid.loop=true; vid.playsInline=true; vid.preload='auto'; vid.onerror=()=>{ d.inner.material.map=d.thumbTex; d.inner.material.needsUpdate=true; }; d.video=vid; const vt=new THREE.VideoTexture(vid); vt.colorSpace=THREE.SRGBColorSpace; vt.wrapS=vt.wrapT=THREE.ClampToEdgeWrapping; vt.center.set(0,0); vt.repeat.set(d.crop.rx,d.crop.ry); vt.offset.set(d.crop.ox,d.crop.oy); d.vtex=vt; } try{d.video.currentTime=0;}catch(_){} const pr=d.video.play(); if(pr&&pr.catch)pr.catch(()=>{}); if(d.vtex){ d.inner.material.map=d.vtex; d.inner.material.needsUpdate=true; } }
+    function stopOrb(o){ const d=o.userData; if(d.video)d.video.pause(); d.inner.material.map=d.thumbTex; d.inner.material.needsUpdate=true; }
+    window.addEventListener('pointermove',(e)=>{ hover=pick(e); if(!isMobile&&hover!==lastHover){ if(lastHover)stopOrb(lastHover); if(hover)playOrb(hover); lastHover=hover; } canvas.style.cursor=hover?'pointer':'default'; if(hover&&tip){ tip.textContent=hover.userData.v.title||'영상 보기'; tip.style.left=Math.min(window.innerWidth-250,pxy.x+14)+'px'; tip.style.top=(pxy.y+16)+'px'; tip.style.opacity=1; tip.style.transform='translateY(0)'; } else if(tip){ tip.style.opacity=0; } },{passive:true});
+    canvas.addEventListener('click',(e)=>{ const o=pick(e); if(o&&o.userData.v.url) window.open(o.userData.v.url,'_blank','noopener'); });
+
+    function resize(){ const w=heroEl.clientWidth||window.innerWidth, h=heroEl.clientHeight||window.innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
+    window.addEventListener('resize', resize); resize();
+
+    let heroVisible=true;
+    try{ new IntersectionObserver(([en])=>{ heroVisible=en.isIntersecting; },{threshold:0}).observe(heroEl); }catch(_){}
+
+    const clock=new THREE.Clock();
+    function animate(){
+      requestAnimationFrame(animate);
+      if(!heroVisible) return;
+      const t=clock.getElapsedTime();
+      const fitMul=Math.min(3.0, Math.max(1, 1.42/camera.aspect));
+      camera.position.set(0,0,9.6*fitMul); camera.lookAt(0,0,0); camera.updateMatrixWorld();
+      orbs.forEach((o)=>{
+        const d=o.userData; const p=d.scatter.clone();
+        p.x += Math.sin(t*0.9*d.sp + d.phase)*0.20;
+        p.y += Math.cos(t*0.8*d.sp + d.phase*1.1)*0.20 + Math.abs(Math.sin(t*1.4*d.sp + d.phase))*0.07;
+        p.z += Math.sin(t*0.6*d.sp + d.phase*1.3)*0.16;
+        o.position.copy(p);
+        const sc=(hover===o?1.12:1);
+        o.scale.setScalar(lerp(o.scale.x||1, sc, 0.2));
+        o.quaternion.copy(camera.quaternion);
+      });
+      renderer.render(scene,camera);
+    }
+    animate();
+  })();
+  </script>
 
 </body>
 </html>
